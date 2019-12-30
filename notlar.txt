@@ -1,24 +1,14 @@
-modül ekleme
-#startapp
-#urls.py oluştur
-#urls.py'a path'leri ekle(endpointler)
-#views.py'a oluşturulan linkler ile ilgili fonskiyonları tanımla
-#urls.py'da oluşturulan linkleri ana klasörün urls.py'ına ekle!
-#kurduğumuz app'i (modülü) settings.py'a ekliyoruz.
-
-{% static '/img/logo.png' %} 
-
-pip install psycopg2
-
------------------------------------------
-
 yapılacaklar
 ------------
-soruların html'ini hazırla + pagination + bootstrap
-soruların backend fonksiyonlarını hazırla (database kayıt vs)
-kullanıcı-sorular-cevaplar database şeması hazırla m2m olacak
-cevap kontrol algoritması?
+
+
 timer?
 şifremi unuttum + şifre değiştir
-is_completed ekle
 
+login/forgot pass responsive olmalı
+registration form küçültülmeli
+
+
+test_completed=True oldugunda;
+## dashboardda sınav sonucu göster butonunu(sonuç sayfasına redirect yapmalı) aktif yap
+## sınavı başlat butonunu pasif yap

@@ -77,3 +77,7 @@ def logout(request):
         # messages.success(request, "You are now logged out.")
         print("logout gerçekleştirildi")
         return redirect("homepage")
+
+
+def password_reset(request):
+    return render(request, "reset_password/reset_form.html")

@@ -129,3 +129,10 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'examproject/static')
 ]
+
+# Email config
+# EMAIL_HOST = "smtp.gmail.com"
+# EMAIL_PORT = 587
+# EMAIL_HOST_USER = "sender mail"
+# EMAIL_HOST_PASSWORD = "sender pass"
+# EMAIL_USE_TLS = True

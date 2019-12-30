@@ -1,40 +1,97 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
-from django.utils.datastructures import MultiValueDictKeyError
-from .models import Question
+from .models import Question, Account_Question
+from accounts.models import Account
+
+
+def save_answer(request,question,existing_answer,user):
+        if "choice" in request.POST: #db choice kayıt
+            user_answer = request.POST['choice']           
+            if (existing_answer):
+                existing_answer.update(user_answer=user_answer)
+            else:
+                answer = Account_Question(question=question, user=user, user_answer=user_answer)
+                answer.save()
+        else:
+            if (existing_answer): #unclick ekle
+                existing_answer.update(user_answer="")
+            else: #db null kayıt
+                answer = Account_Question(question=question, user=user)
+                answer.save()
 
 def exam(request, question_id):
+    if request.user.is_authenticated:
+        user = request.user
+    else:
+        return redirect("homepage")
+
     question = get_object_or_404(Question, pk=question_id)
-    # questions = Question.objects.order_by("id")
-
-    # paginator = Paginator(questions, 1)
-    # page = request.GET.get("page")
-    # paged_questions = paginator.get_page(page)
-
+    existing_answer = Account_Question.objects.filter(question=question, user=user)
+    checked_answer=""
+    if existing_answer:
+        checked_answer = existing_answer[0].user_answer
+    
     context={
-        # "questions" : paged_questions
-        "question": question
+        "question": question,
+        "checked_answer": checked_answer,
     }
 
-    if request.method == "POST" and "choice" in request.POST:
-        kullanıcı_cevabı = request.POST['choice']
-        print(kullanıcı_cevabı)
-        #db kayıt komutu gir
+    if request.method == "POST":
+        if "next" in request.POST:
+            save_answer(request,question,existing_answer,user)
+            return redirect(f'/exam/{question.id+1}', context)
+    
+        if "prev" in request.POST:
+            save_answer(request,question,existing_answer,user)
+            return redirect(f'/exam/{question.id-1}', context)
+        
+        if "first" in request.POST:
+            save_answer(request,question,existing_answer,user)
+            return redirect('/exam/1', context)
+        
+        if "last" in request.POST:
+            save_answer(request,question,existing_answer,user)
+            return redirect('/exam/20', context)
+       
+        if "finish" in request.POST:
+            save_answer(request,question,existing_answer,user)
+            Account.objects.filter(id=user.id).update(test_completed=True)
+            return redirect('result')
     else:
-        print("boş")
-        #db kayıt komutu gir (null olarak)
-
-    return render(request, 'exam.html', context)
+        return render(request, "exam.html", context)
 
 
-def question(request):
-    # if request.method == "POST" and "choice" in request.POST:
-    #     kullanıcı_cevabı = request.POST['choice']
-    #     print(kullanıcı_cevabı)
-    #     #db kayıt komutu gir
-    # else:
-    #     print("boş")
-    #     #db kayıt komutu gir (null olarak)
+def result(request):
+    if request.user.is_authenticated:
+        user = request.user
+    else:
+        return redirect("homepage")
 
-    # return render(request, 'exam.html')
-    return
+    answers = Account_Question.objects.filter(user=user)
+    answer_list=[]
+    for answer in answers:
+        question_id = answer.question_id
+        user_answer = answer.user_answer
+        answer_list.append((question_id,user_answer))
+    print(answer_list)
+
+    x = []
+    y = []
+
+    for i in answers:
+        x.append(i.question_id)
+        y.append(i.user_answer)
+    
+    xy = dict(zip(x,y))
+    print(xy)
+
+    true_count=0
+    for i in answers:
+        if i.user_answer == i.question.answer:
+            true_count +=1
+    print(true_count)
+
+    context = {
+        "true_count": true_count,
+    }
+
+    return render(request, "result.html", context)

@@ -10,32 +10,44 @@
 
 
 <h5>Soru {{question.id}}</h5>
-<p>{{question.soru}}</p>
+<p>{{question.text}}</p>
 <br>
 <!-- Option A -->
 <div class="custom-control custom-radio">
-<input type="radio" class="custom-control-input" id="A-question{{question.id}}" name="choice" value="A">
+<input type="radio" class="custom-control-input" id="A-question{{question.id}}" 
+name="choice" value="A" {% if checked_answer == "A" %} checked {% endif %}>
 <label class="custom-control-label" for="A-question{{question.id}}">A) {{question.a}}</label> 
 <!-- Option B -->
-<input type="radio" class="custom-control-input" id="B-question{{question.id}}" name="choice" value="B" >
+<input type="radio" class="custom-control-input" id="B-question{{question.id}}" 
+name="choice" value="B" {% if checked_answer == "B" %} checked {% endif %}>
 <label class="custom-control-label" for="B-question{{question.id}}">B) {{question.b}}</label>
 <!-- Option C -->
-<input type="radio" class="custom-control-input" id="C-question{{question.id}}" name="choice" value="C">
+<input type="radio" class="custom-control-input" id="C-question{{question.id}}" 
+name="choice" value="C" {% if checked_answer == "C" %} checked {% endif %}>
 <label class="custom-control-label" for="C-question{{question.id}}">C) {{question.c}}</label>
 <!-- Option D -->
-<input type="radio" class="custom-control-input" id="D-question{{question.id}}" name="choice" value="D">
+<input type="radio" class="custom-control-input" id="D-question{{question.id}}" 
+name="choice" value="D" {% if checked_answer == "D" %} checked {% endif %}>
 <label class="custom-control-label" for="D-question{{question.id}}">D) {{question.d}}</label>
 </div>
 <br>
-
 <!-- Next Question -->
-<input type="submit" value="< Previous Question" class="btn btn-secondary text-center"/>
-<input type="submit" value="Next Question >" class="btn btn-secondary text-center"/>
+
+<input type="submit" name="first" value="&#8920;" class="btn btn-secondary text-center"/>
+<input type="submit" name="prev" value="&#8810; Previous Question" class="btn btn-secondary text-center"/>
+{% if question.id < 20 %}
+<input type="submit" name="next" value="Next Question &#8811;" class="btn btn-secondary text-center"/>
+<input type="submit" name="last" value="&#8921;" class="btn btn-secondary text-center"/>
+{% endif %}
+{% if question.id == 20 %}
+<input type="submit" name="finish" value="Sınavı Bitir" class="btn btn-secondary text-center"/>
+{% endif %}
+
 </form>
 </div>
 </div>
 
-<div class="row">
+<!-- <div class="row">
         <div class="col-md-12">
           {% if questions.has_other_pages %}
             <ul class="pagination">
@@ -72,4 +84,5 @@
           {% endif %}
         </div>
       </div>
+       -->
 {% endblock %}
