@@ -3,6 +3,10 @@ yapılacaklar
 
 
 timer?
+soru numaraları ekle?
+boş soruların rengini farklı yap
+içinde olduğun sorunun rengini farklı yap
+fixed footer
 şifremi unuttum + şifre değiştir
 
 login/forgot pass responsive olmalı

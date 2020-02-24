@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Question, Account_Question
 from accounts.models import Account
+import datetime
 
 
 def save_answer(request,question,existing_answer,user):
@@ -18,12 +19,23 @@ def save_answer(request,question,existing_answer,user):
                 answer = Account_Question(question=question, user=user)
                 answer.save()
 
+def startexam(request):
+    if request.user.is_authenticated:
+        user = request.user
+
+    Account.objects.filter(id=user.id).update(test_start_time=datetime.datetime.now())
+
+    return redirect("exam/1")
+
+
 def exam(request, question_id):
     if request.user.is_authenticated:
         user = request.user
     else:
         return redirect("homepage")
 
+    
+    exam_start_time = get_object_or_404(Account, pk=user.id).test_start_time
     question = get_object_or_404(Question, pk=question_id)
     existing_answer = Account_Question.objects.filter(question=question, user=user)
     checked_answer=""
@@ -33,6 +45,7 @@ def exam(request, question_id):
     context={
         "question": question,
         "checked_answer": checked_answer,
+        "time": int(exam_start_time.timestamp())
     }
 
     if request.method == "POST":
@@ -86,7 +99,7 @@ def result(request):
 
     true_count=0
     for i in answers:
-        if i.user_answer == i.question.answer:
+        if i.user_answer.lower() == i.question.answer.lower():
             true_count +=1
     print(true_count)
 

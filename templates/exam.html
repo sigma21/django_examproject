@@ -3,14 +3,18 @@
 {% block content %}
 <h1>exam</h1>
 
+<div>
+  <h5 id="start-time" style="display:none">{{time}}</h5>
+  <h5 id="finish-time" style="display:none"></h5>
+  <h5>Timer</h5>
+  <h5 id="timer"/></div>
+
 <div class="col-md-6 col-lg-4 mb-4">
 <div class="card listing-preview">
-<form action="{% url 'exam' question.id %}" method="POST">
+  <form action="{% url 'exam' question.id %}" method="POST">
 {% csrf_token %}
-
-
-<h5>Soru {{question.id}}</h5>
-<p>{{question.text}}</p>
+<h5 class="question-header">Soru {{question.id}}</h5>
+<p class="question-text">{{question.text}}</p>
 <br>
 <!-- Option A -->
 <div class="custom-control custom-radio">

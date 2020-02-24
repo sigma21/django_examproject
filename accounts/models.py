@@ -53,6 +53,7 @@ class Account(AbstractBaseUser):
     last_name = models.CharField(max_length=60)
     dob = models.DateField(verbose_name="date of birth", max_length=30, null=True)
     test_completed = models.BooleanField(default=False)
+    test_start_time = models.DateTimeField(null=True)
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["first_name", "last_name", "dob"]

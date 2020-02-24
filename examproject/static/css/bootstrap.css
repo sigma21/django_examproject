@@ -511,7 +511,8 @@
     width: 100%;
     min-height: 1px;
     padding-right: 15px;
-    padding-left: 15px; }
+    padding-left: 15px;
+    margin: 0 auto;}
   
   .col {
     flex-basis: 0;
@@ -775,7 +776,7 @@
       max-width: 41.66667%; }
     .col-md-6 {
       flex: 0 0 50%;
-      max-width: 50%; }
+      max-width: 55%; }
     .col-md-7 {
       flex: 0 0 58.33333%;
       max-width: 58.33333%; }
@@ -869,7 +870,7 @@
       max-width: 25%; }
     .col-lg-4 {
       flex: 0 0 33.33333%;
-      max-width: 33.33333%; }
+      max-width: 40%; }
     .col-lg-5 {
       flex: 0 0 41.66667%;
       max-width: 41.66667%; }

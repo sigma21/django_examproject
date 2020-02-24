@@ -50,10 +50,11 @@
 }
 
 .footer{
-  bottom: 0;
+  /* position: absolute; */
   left: 0;
-  position: relative;
+  bottom: 0;
   width:100%;
+  position: relative;
 }
 
 .custom-radio input[type=radio]{
@@ -67,3 +68,17 @@
 /* input[type=date] {
   text-align: right;
 } */
+
+/* body {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
+} */
+
+.question-header, .question-text{
+  margin: 5px;
+}
